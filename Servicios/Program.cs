@@ -21,14 +21,11 @@ namespace Servicios
                 Console.WriteLine("\n".PadRight(37, '-') + "\n".PadRight(37, '-'));
                 Console.WriteLine("-- 1. Mostrar legajo completo.    --");
                 Console.WriteLine("-- 2. Mostrar materias.           --");
-                Console.WriteLine("-- 3. Insertar un nuevo alumno.   --");
-                Console.WriteLine("-- 4. Insertar un nuevo profesor. --");
+                Console.WriteLine("-- 3. Mostrar profesores.         --");
+                Console.WriteLine("-- 4. Insertar un nuevo alumno.   --");
+                Console.WriteLine("-- 5. Insertar un nuevo profesor. --");
                 Console.WriteLine("------------------------------------");
-                Console.WriteLine("----- De momento no andan ----------");
-                Console.WriteLine("------------------------------------");
-                Console.WriteLine("-- . Actualizar una ciudad.      ---");
-                Console.WriteLine("------------------------------------");
-                Console.WriteLine("-- X. Para salir.                ---");
+                Console.WriteLine("-- X. Para salir.                 --");
                 Console.WriteLine("".PadRight(36, '-') + "\n".PadRight(37, '-'));
                 Console.Write("-- Ingrese su opcion: ");
                 String opcion = Console.ReadLine();
@@ -37,11 +34,11 @@ namespace Servicios
 
                 else if (opcion == "2") MostarMateria();
 
-                else if (opcion == "3") InsertarNuevoAlumno();
+                else if (opcion == "3") MostarProfesor();
 
-                else if (opcion == "4") InsertarNuevoProfesor();
+                else if (opcion == "4") InsertarNuevoAlumno();
 
-                //else if (opcion == "5") EliminarUnaCiudad();
+                else if (opcion == "5") InsertarNuevoProfesor();
 
                 //else if (opcion == "6") ActualizarUnaCiudad();
 
@@ -100,22 +97,23 @@ namespace Servicios
 
         private static void MostarProfesor()
         {
-            Console.WriteLine("".PadRight(61, '-'));
-            Console.WriteLine("".PadLeft(15, '-').PadRight(21, ' ') + "LISTA DE PROFESORES".PadRight(23, ' ') + "".PadRight(15, '-'));
-            Console.WriteLine("".PadRight(61, '-'));
-            Console.WriteLine("--" + " id.".PadRight(5, ' ') + "Materia".PadRight(35, ' ') + "Profesor".PadRight(17, ' ') + "--");
+            Console.WriteLine("".PadRight(68, '-'));
+            Console.WriteLine("".PadLeft(15, '-').PadRight(26, ' ') + "LISTA DE PROFESORES".PadRight(27, ' ') + "".PadRight(15, '-'));
+            Console.WriteLine("".PadRight(68, '-'));
+
+            Console.WriteLine("--" + " id.".PadRight(5, ' ') + "Nombre".PadRight(21, ' ') + "Celular".PadRight(13, ' ') + "Ingreso".PadRight(11, ' ') + "Horarios".PadRight(9, ' ') + "id.M " + "--");
             using (var bdEscuela = new EscuelaModificadoContenx())
             {
                 var profesoresObtenidas = bdEscuela.profesors.Where(x => x.id_prof > 0).ToList();
 
                 foreach (var profObtenido in profesoresObtenidas)
                 {
-                    Console.WriteLine("-- " + profObtenido.id_prof.ToString().PadRight(4, ' ') + profObtenido.nom_p.PadRight(17, ' ') + 
-                        profObtenido.tel_p.ToString().PadRight(12, ' ') + profObtenido.hor_p.ToString().PadRight(20, ' ') + profObtenido.id_mat1.ToString().PadRight(3, ' ') + "--");
+                    Console.WriteLine("-- " + profObtenido.id_prof.ToString().PadRight(4, ' ') + profObtenido.nom_p.PadRight(17, ' ') + "(+54)" +
+                        profObtenido.tel_p.ToString().PadRight(12, ' ') + profObtenido.hor_p.ToString().PadRight(22, ' ') + profObtenido.id_mat1.ToString().PadRight(3, ' ') + "--");
                 }
             }
-            Console.WriteLine("".PadRight(61, '-'));
-            Console.WriteLine("".PadRight(61, '-'));
+            Console.WriteLine("".PadRight(68, '-'));
+            Console.WriteLine("".PadRight(68, '-'));
         }
 
         private static void InsertarNuevoAlumno()
