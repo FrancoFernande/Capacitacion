@@ -1,0 +1,271 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="EscuelaModificadoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="alumno">
+          <Key>
+            <PropertyRef Name="id_mat_alu" />
+          </Key>
+          <Property Name="id_mat_alu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre_alu" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="edad_alu" Type="int" Nullable="false" />
+          <Property Name="genero_alu" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="id_carre1" Type="int" Nullable="false" />
+          <Property Name="id_mat2" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="carrera">
+          <Key>
+            <PropertyRef Name="id_carre" />
+          </Key>
+          <Property Name="id_carre" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="duracion" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="materia">
+          <Key>
+            <PropertyRef Name="id_mat" />
+          </Key>
+          <Property Name="id_mat" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre_mat" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="cred_m" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="profesor">
+          <Key>
+            <PropertyRef Name="id_prof" />
+          </Key>
+          <Property Name="id_prof" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom_p" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="tel_p" Type="bigint" />
+          <Property Name="hor_p" Type="datetime" Nullable="false" />
+          <Property Name="id_mat1" Type="int" />
+        </EntityType>
+        <Association Name="fk_fc1">
+          <End Role="carrera" Type="Self.carrera" Multiplicity="1" />
+          <End Role="alumno" Type="Self.alumno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="carrera">
+              <PropertyRef Name="id_carre" />
+            </Principal>
+            <Dependent Role="alumno">
+              <PropertyRef Name="id_carre1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_fm2">
+          <End Role="materia" Type="Self.materia" Multiplicity="1" />
+          <End Role="alumno" Type="Self.alumno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="materia">
+              <PropertyRef Name="id_mat" />
+            </Principal>
+            <Dependent Role="alumno">
+              <PropertyRef Name="id_mat2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_fp1">
+          <End Role="materia" Type="Self.materia" Multiplicity="0..1" />
+          <End Role="profesor" Type="Self.profesor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="materia">
+              <PropertyRef Name="id_mat" />
+            </Principal>
+            <Dependent Role="profesor">
+              <PropertyRef Name="id_mat1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EscuelaModificadoModelStoreContainer">
+          <EntitySet Name="alumno" EntityType="Self.alumno" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="carrera" EntityType="Self.carrera" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="materia" EntityType="Self.materia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="profesor" EntityType="Self.profesor" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_fc1" Association="Self.fk_fc1">
+            <End Role="carrera" EntitySet="carrera" />
+            <End Role="alumno" EntitySet="alumno" />
+          </AssociationSet>
+          <AssociationSet Name="fk_fm2" Association="Self.fk_fm2">
+            <End Role="materia" EntitySet="materia" />
+            <End Role="alumno" EntitySet="alumno" />
+          </AssociationSet>
+          <AssociationSet Name="fk_fp1" Association="Self.fk_fp1">
+            <End Role="materia" EntitySet="materia" />
+            <End Role="profesor" EntitySet="profesor" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EscuelaModificadoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="alumno">
+          <Key>
+            <PropertyRef Name="id_mat_alu" />
+          </Key>
+          <Property Name="id_mat_alu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre_alu" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="edad_alu" Type="Int32" Nullable="false" />
+          <Property Name="genero_alu" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_carre1" Type="Int32" Nullable="false" />
+          <Property Name="id_mat2" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="carrera" Relationship="Self.fk_fc1" FromRole="alumno" ToRole="carrera" />
+          <NavigationProperty Name="materia" Relationship="Self.fk_fm2" FromRole="alumno" ToRole="materia" />
+        </EntityType>
+        <EntityType Name="carrera">
+          <Key>
+            <PropertyRef Name="id_carre" />
+          </Key>
+          <Property Name="id_carre" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="duracion" Type="Double" Nullable="false" />
+          <NavigationProperty Name="alumnoes" Relationship="Self.fk_fc1" FromRole="carrera" ToRole="alumno" />
+        </EntityType>
+        <EntityType Name="materia">
+          <Key>
+            <PropertyRef Name="id_mat" />
+          </Key>
+          <Property Name="id_mat" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre_mat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="cred_m" Type="Double" Nullable="false" />
+          <NavigationProperty Name="alumnoes" Relationship="Self.fk_fm2" FromRole="materia" ToRole="alumno" />
+          <NavigationProperty Name="profesors" Relationship="Self.fk_fp1" FromRole="materia" ToRole="profesor" />
+        </EntityType>
+        <EntityType Name="profesor">
+          <Key>
+            <PropertyRef Name="id_prof" />
+          </Key>
+          <Property Name="id_prof" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom_p" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="tel_p" Type="Int64" />
+          <Property Name="hor_p" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="id_mat1" Type="Int32" />
+          <NavigationProperty Name="materia" Relationship="Self.fk_fp1" FromRole="profesor" ToRole="materia" />
+        </EntityType>
+        <Association Name="fk_fc1">
+          <End Role="carrera" Type="Self.carrera" Multiplicity="1" />
+          <End Role="alumno" Type="Self.alumno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="carrera">
+              <PropertyRef Name="id_carre" />
+            </Principal>
+            <Dependent Role="alumno">
+              <PropertyRef Name="id_carre1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_fm2">
+          <End Role="materia" Type="Self.materia" Multiplicity="1" />
+          <End Role="alumno" Type="Self.alumno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="materia">
+              <PropertyRef Name="id_mat" />
+            </Principal>
+            <Dependent Role="alumno">
+              <PropertyRef Name="id_mat2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_fp1">
+          <End Role="materia" Type="Self.materia" Multiplicity="0..1" />
+          <End Role="profesor" Type="Self.profesor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="materia">
+              <PropertyRef Name="id_mat" />
+            </Principal>
+            <Dependent Role="profesor">
+              <PropertyRef Name="id_mat1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EscuelaModificadoContenx" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="alumnoes" EntityType="Self.alumno" />
+          <EntitySet Name="carreras" EntityType="Self.carrera" />
+          <EntitySet Name="materias" EntityType="Self.materia" />
+          <EntitySet Name="profesors" EntityType="Self.profesor" />
+          <AssociationSet Name="fk_fc1" Association="Self.fk_fc1">
+            <End Role="carrera" EntitySet="carreras" />
+            <End Role="alumno" EntitySet="alumnoes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_fm2" Association="Self.fk_fm2">
+            <End Role="materia" EntitySet="materias" />
+            <End Role="alumno" EntitySet="alumnoes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_fp1" Association="Self.fk_fp1">
+            <End Role="materia" EntitySet="materias" />
+            <End Role="profesor" EntitySet="profesors" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EscuelaModificadoModelStoreContainer" CdmEntityContainer="EscuelaModificadoContenx">
+          <EntitySetMapping Name="alumnoes">
+            <EntityTypeMapping TypeName="EscuelaModificadoModel.alumno">
+              <MappingFragment StoreEntitySet="alumno">
+                <ScalarProperty Name="id_mat_alu" ColumnName="id_mat_alu" />
+                <ScalarProperty Name="nombre_alu" ColumnName="nombre_alu" />
+                <ScalarProperty Name="edad_alu" ColumnName="edad_alu" />
+                <ScalarProperty Name="genero_alu" ColumnName="genero_alu" />
+                <ScalarProperty Name="id_carre1" ColumnName="id_carre1" />
+                <ScalarProperty Name="id_mat2" ColumnName="id_mat2" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="carreras">
+            <EntityTypeMapping TypeName="EscuelaModificadoModel.carrera">
+              <MappingFragment StoreEntitySet="carrera">
+                <ScalarProperty Name="id_carre" ColumnName="id_carre" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="duracion" ColumnName="duracion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="materias">
+            <EntityTypeMapping TypeName="EscuelaModificadoModel.materia">
+              <MappingFragment StoreEntitySet="materia">
+                <ScalarProperty Name="id_mat" ColumnName="id_mat" />
+                <ScalarProperty Name="nombre_mat" ColumnName="nombre_mat" />
+                <ScalarProperty Name="cred_m" ColumnName="cred_m" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="profesors">
+            <EntityTypeMapping TypeName="EscuelaModificadoModel.profesor">
+              <MappingFragment StoreEntitySet="profesor">
+                <ScalarProperty Name="id_prof" ColumnName="id_prof" />
+                <ScalarProperty Name="nom_p" ColumnName="nom_p" />
+                <ScalarProperty Name="tel_p" ColumnName="tel_p" />
+                <ScalarProperty Name="hor_p" ColumnName="hor_p" />
+                <ScalarProperty Name="id_mat1" ColumnName="id_mat1" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
