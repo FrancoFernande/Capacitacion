@@ -53,19 +53,53 @@ namespace Servicios
         {
             using (var bdEscuela = new EscuelaModificadoContenx())
             {
-                var elementos = bdEscuela.alumnoes.Include("materia.profesors").Where(x => x.id_mat_alu <= 101).ToList();
-
+                var elementos = bdEscuela.alumnoes.Include("materia.profesors").Where(x => x.id_mat_alu > 0).ToList();                
                 Console.WriteLine("".PadRight(77, '-'));
                 Console.WriteLine("".PadLeft(19, '-') + "".PadLeft(10, ' ') + "Legajo de alumnos.".PadRight(29, ' ') + "".PadRight(19, '-'));
                 Console.WriteLine("".PadRight(77, '-'));
-                Console.WriteLine("-- Legajo".PadRight(10, ' ') + "Nombre".PadRight(12, ' ') + "Edad".PadRight(6, ' ') + "Genero".PadRight(11, ' ') + "Materia".PadRight(19, ' ') + "Profesor".PadRight(17, ' ') + "--");
+                Console.WriteLine("-- Legajo".PadRight(10, ' ') + "Nombre".PadRight(12, ' ') + "Edad".PadRight(6, ' ') + "Genero".PadRight(11, ' ') + 
+                    "Materia".PadRight(19, ' ') + "Profesor".PadRight(17, ' ') + "--");
+                String cadenaUno = "";
+                int contador= 0;
+                int swap = 0;
+                int swapDos = 0;
 
                 foreach (var a in elementos)
                 {
+                    cadenaUno = "--" + $"{a.id_mat_alu}".PadLeft(4, ' ').PadRight(8, ' ') + $"{a.nombre_alu}".PadRight(13, ' ') +
+                            $"{a.edad_alu}".PadRight(5, ' ') + $"{a.genero_alu}".PadRight(11, ' ') + $"{a.materia.nombre_mat}".PadRight(19, ' ');
+
+                    Console.Write(cadenaUno);
+                    
                     foreach (var q in a.materia.profesors)
                     {
-                        Console.Write("--" + $"{a.id_mat_alu}".PadLeft(4, ' ').PadRight(8, ' ') + $"{a.nombre_alu}".PadRight(13, ' ') + $"{a.edad_alu}".PadRight(5, ' ') + $"{a.genero_alu}".PadRight(11, ' ') + $"{a.materia.nombre_mat}".PadRight(19, ' '));
-                        Console.WriteLine(q.nom_p.PadRight(17, ' ') + "--");
+                        
+                        if (q.id_mat1 == a.materia.id_mat)
+                        {
+                            if (contador == 0)
+                            {
+                                Console.WriteLine(q.nom_p.PadRight(17, ' ') + "--");
+                                contador += 1;
+                                swapDos = a.id_mat_alu;
+                                swap = int.Parse(q.id_mat1.ToString());
+
+                            }
+                            else if (contador == 1)
+                            {
+                                if (swapDos != a.id_mat_alu && q.id_mat1 == a.materia.id_mat)
+                                {
+                                    Console.WriteLine(q.nom_p.PadRight(17, ' ') + "--");
+                                    contador = 0;
+                                }                                 
+                                else if (swapDos == a.id_mat_alu || swap == q.id_mat1)
+                                {
+                                    Console.WriteLine("--".PadRight(58, ' ') + q.nom_p.PadRight(17, ' ') + "--");
+                                    contador = 1;
+                                }
+                            }
+                            else contador = 0;
+                        }
+                        
                     }
                 }
                 Console.WriteLine("".PadRight(77, '-'));
@@ -88,7 +122,8 @@ namespace Servicios
                 foreach (var matObtenido in materiasObtenidas)
                 {
                     foreach (var prof in matObtenido.profesors)
-                        Console.WriteLine("-- " + matObtenido.id_mat.ToString().PadRight(4, ' ') + matObtenido.nombre_mat.PadRight(17, ' ') + " es impartida por " + prof.nom_p.PadRight(17, ' ') + "--");
+                        Console.WriteLine("-- " + matObtenido.id_mat.ToString().PadRight(4, ' ') + matObtenido.nombre_mat.PadRight(17, ' ') + 
+                            " es impartida por " + prof.nom_p.PadRight(17, ' ') + "--");
                 }
             }
             Console.WriteLine("".PadRight(61, '-'));
@@ -101,7 +136,8 @@ namespace Servicios
             Console.WriteLine("".PadLeft(15, '-').PadRight(26, ' ') + "LISTA DE PROFESORES".PadRight(27, ' ') + "".PadRight(15, '-'));
             Console.WriteLine("".PadRight(68, '-'));
 
-            Console.WriteLine("--" + " id.".PadRight(5, ' ') + "Nombre".PadRight(21, ' ') + "Celular".PadRight(13, ' ') + "Ingreso".PadRight(11, ' ') + "Horarios".PadRight(9, ' ') + "id.M " + "--");
+            Console.WriteLine("--" + " id.".PadRight(5, ' ') + "Nombre".PadRight(21, ' ') + "Celular".PadRight(13, ' ') + "Ingreso".PadRight(11, ' ') + 
+                "Horarios".PadRight(9, ' ') + "id.M " + "--");
             using (var bdEscuela = new EscuelaModificadoContenx())
             {
                 var profesoresObtenidas = bdEscuela.profesors.Where(x => x.id_prof > 0).ToList();
@@ -109,7 +145,8 @@ namespace Servicios
                 foreach (var profObtenido in profesoresObtenidas)
                 {
                     Console.WriteLine("-- " + profObtenido.id_prof.ToString().PadRight(4, ' ') + profObtenido.nom_p.PadRight(17, ' ') + "(+54)" +
-                        profObtenido.tel_p.ToString().PadRight(12, ' ') + profObtenido.hor_p.ToString().PadRight(22, ' ') + profObtenido.id_mat1.ToString().PadRight(3, ' ') + "--");
+                        profObtenido.tel_p.ToString().PadRight(12, ' ') + profObtenido.hor_p.ToString().PadRight(22, ' ') + 
+                        profObtenido.id_mat1.ToString().PadRight(3, ' ') + "--");
                 }
             }
             Console.WriteLine("".PadRight(68, '-'));
@@ -157,30 +194,34 @@ namespace Servicios
 
         private static void InsertarNuevoProfesor()
         {
-            
+            DatosProfesor profe = new DatosProfesor();
+
             using (var bdEscuela = new EscuelaModificadoContenx())
             {
                 using (var transicion = bdEscuela.Database.BeginTransaction())
                 {
                     try
                     {
-                        DatosProfesor profe = new DatosProfesor();
+                        DateTime horario = new DateTime(2021,01,01, profe.getTimeProf(),00,00);
 
-                        DateTime horario = new DateTime(0,0,0, profe.getTimeProf(),0,0);
-
-                        profesor agregarProfesor = new profesor { nom_p = profe.getName(), tel_p = profe.getPhone(), hor_p = horario, id_mat1 = profe.getMateria() };
+                        profe.getNumero();
+                        profesor agregarProfesor = new profesor { nom_p = profe.getName(), tel_p = profe.getNumero(), hor_p = horario, id_mat1 = profe.getMateria() };
 
                         bdEscuela.profesors.Add(agregarProfesor);
                         bdEscuela.SaveChanges();
 
                         transicion.Commit();
+                        Console.ReadLine();
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
                         transicion.Rollback();
+                        Console.WriteLine("Ha sucedido un eror" + e);
                     }
                 }
             }
+            Console.Write("ENTER para continuar...");
+            Console.ReadLine();
         }
 
     }
@@ -228,6 +269,7 @@ namespace Servicios
 
     }
 
+    // Esta manera me gusta mas
     class DatosProfesor
     {
         public DatosProfesor()
@@ -235,7 +277,7 @@ namespace Servicios
             Console.WriteLine("------------------------------------");
             Console.WriteLine("-- Ingresando a un nuevo profesor --");
             Console.WriteLine("------------------------------------");
-            Console.Write("-- Ingrese el nombre del profesoraa : ");
+            Console.Write("-- Ingrese el nombre del profesor/a : ");
             nombreP = Console.ReadLine();
             Console.Write("-- Ingrese el telefono del profesor/a : ");
             int.TryParse(Console.ReadLine(), out telefono);
@@ -243,6 +285,7 @@ namespace Servicios
             int.TryParse(Console.ReadLine(), out horarioP);
             Console.Write("-- Ingrese el id de la materia que imparte : ");
             int.TryParse(Console.ReadLine(), out idMateria);
+            Console.WriteLine("Se ingresaron los datos correctamente");            
         }
 
         private static String nombreP;
@@ -252,7 +295,7 @@ namespace Servicios
 
         public int getTimeProf() => horarioP;
 
-        public int getPhone() => telefono;
+        public int getNumero() => telefono;
 
         public int getMateria() => idMateria;
     }
