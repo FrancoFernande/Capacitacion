@@ -1,0 +1,488 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="escuelaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="alu_pro">
+          <Key>
+            <PropertyRef Name="idAluProf" />
+          </Key>
+          <Property Name="mat_alu1" Type="int" />
+          <Property Name="clave_p1" Type="int" />
+          <Property Name="idAluProf" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="alumno">
+          <Key>
+            <PropertyRef Name="mat_alu" />
+          </Key>
+          <Property Name="mat_alu" Type="int" Nullable="false" />
+          <Property Name="nom_alu" Type="varchar" MaxLength="150" />
+          <Property Name="edad_alu" Type="int" />
+          <Property Name="sem_alu" Type="int" />
+          <Property Name="gen_alu" Type="varchar" MaxLength="10" />
+          <Property Name="clave_c1" Type="int" />
+        </EntityType>
+        <EntityType Name="carrera">
+          <Key>
+            <PropertyRef Name="clave_c" />
+          </Key>
+          <Property Name="clave_c" Type="int" Nullable="false" />
+          <Property Name="nombre_c" Type="varchar" MaxLength="50" />
+          <Property Name="duracion" Type="float" />
+        </EntityType>
+        <EntityType Name="mat_alu">
+          <Key>
+            <PropertyRef Name="idMatAlu" />
+          </Key>
+          <Property Name="idMatAlu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="clave_m1To" Type="int" />
+          <Property Name="mat_alu2" Type="int" />
+        </EntityType>
+        <EntityType Name="mat_pro">
+          <Key>
+            <PropertyRef Name="idMatProf" />
+          </Key>
+          <Property Name="idMatProf" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="clave_m2" Type="int" />
+          <Property Name="clave_p2" Type="int" />
+        </EntityType>
+        <EntityType Name="materia">
+          <Key>
+            <PropertyRef Name="clave_m" />
+          </Key>
+          <Property Name="clave_m" Type="int" Nullable="false" />
+          <Property Name="nom_m" Type="varchar" MaxLength="50" />
+          <Property Name="cred_m" Type="float" />
+        </EntityType>
+        <EntityType Name="profesor">
+          <Key>
+            <PropertyRef Name="clave_p" />
+          </Key>
+          <Property Name="clave_p" Type="int" Nullable="false" />
+          <Property Name="nom_p" Type="varchar" MaxLength="50" />
+          <Property Name="dir_p" Type="varchar" MaxLength="50" />
+          <Property Name="tel_p" Type="bigint" />
+          <Property Name="hor_p" Type="datetime" />
+        </EntityType>
+        <Association Name="fk_falu1">
+          <End Role="alumno" Type="Self.alumno" Multiplicity="0..1" />
+          <End Role="alu_pro" Type="Self.alu_pro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="alumno">
+              <PropertyRef Name="mat_alu" />
+            </Principal>
+            <Dependent Role="alu_pro">
+              <PropertyRef Name="mat_alu1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_falu2">
+          <End Role="alumno" Type="Self.alumno" Multiplicity="0..1" />
+          <End Role="mat_alu" Type="Self.mat_alu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="alumno">
+              <PropertyRef Name="mat_alu" />
+            </Principal>
+            <Dependent Role="mat_alu">
+              <PropertyRef Name="mat_alu2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_fc1">
+          <End Role="carrera" Type="Self.carrera" Multiplicity="0..1" />
+          <End Role="alumno" Type="Self.alumno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="carrera">
+              <PropertyRef Name="clave_c" />
+            </Principal>
+            <Dependent Role="alumno">
+              <PropertyRef Name="clave_c1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_fm1">
+          <End Role="materia" Type="Self.materia" Multiplicity="0..1" />
+          <End Role="mat_alu" Type="Self.mat_alu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="materia">
+              <PropertyRef Name="clave_m" />
+            </Principal>
+            <Dependent Role="mat_alu">
+              <PropertyRef Name="clave_m1To" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_fm2">
+          <End Role="materia" Type="Self.materia" Multiplicity="0..1" />
+          <End Role="mat_pro" Type="Self.mat_pro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="materia">
+              <PropertyRef Name="clave_m" />
+            </Principal>
+            <Dependent Role="mat_pro">
+              <PropertyRef Name="clave_m2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_fp1">
+          <End Role="profesor" Type="Self.profesor" Multiplicity="0..1" />
+          <End Role="alu_pro" Type="Self.alu_pro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="profesor">
+              <PropertyRef Name="clave_p" />
+            </Principal>
+            <Dependent Role="alu_pro">
+              <PropertyRef Name="clave_p1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_fp2">
+          <End Role="profesor" Type="Self.profesor" Multiplicity="0..1" />
+          <End Role="mat_pro" Type="Self.mat_pro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="profesor">
+              <PropertyRef Name="clave_p" />
+            </Principal>
+            <Dependent Role="mat_pro">
+              <PropertyRef Name="clave_p2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="escuelaModelStoreContainer">
+          <EntitySet Name="alu_pro" EntityType="Self.alu_pro" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="alumno" EntityType="Self.alumno" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="carrera" EntityType="Self.carrera" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mat_alu" EntityType="Self.mat_alu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mat_pro" EntityType="Self.mat_pro" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="materia" EntityType="Self.materia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="profesor" EntityType="Self.profesor" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_falu1" Association="Self.fk_falu1">
+            <End Role="alumno" EntitySet="alumno" />
+            <End Role="alu_pro" EntitySet="alu_pro" />
+          </AssociationSet>
+          <AssociationSet Name="fk_falu2" Association="Self.fk_falu2">
+            <End Role="alumno" EntitySet="alumno" />
+            <End Role="mat_alu" EntitySet="mat_alu" />
+          </AssociationSet>
+          <AssociationSet Name="fk_fc1" Association="Self.fk_fc1">
+            <End Role="carrera" EntitySet="carrera" />
+            <End Role="alumno" EntitySet="alumno" />
+          </AssociationSet>
+          <AssociationSet Name="fk_fm1" Association="Self.fk_fm1">
+            <End Role="materia" EntitySet="materia" />
+            <End Role="mat_alu" EntitySet="mat_alu" />
+          </AssociationSet>
+          <AssociationSet Name="fk_fm2" Association="Self.fk_fm2">
+            <End Role="materia" EntitySet="materia" />
+            <End Role="mat_pro" EntitySet="mat_pro" />
+          </AssociationSet>
+          <AssociationSet Name="fk_fp1" Association="Self.fk_fp1">
+            <End Role="profesor" EntitySet="profesor" />
+            <End Role="alu_pro" EntitySet="alu_pro" />
+          </AssociationSet>
+          <AssociationSet Name="fk_fp2" Association="Self.fk_fp2">
+            <End Role="profesor" EntitySet="profesor" />
+            <End Role="mat_pro" EntitySet="mat_pro" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="escuelaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="alu_pro">
+          <Key>
+            <PropertyRef Name="idAluProf" />
+          </Key>
+          <Property Name="mat_alu1" Type="Int32" />
+          <Property Name="clave_p1" Type="Int32" />
+          <Property Name="idAluProf" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="alumno" Relationship="Self.fk_falu1" FromRole="alu_pro" ToRole="alumno" />
+          <NavigationProperty Name="profesor" Relationship="Self.fk_fp1" FromRole="alu_pro" ToRole="profesor" />
+        </EntityType>
+        <EntityType Name="alumno">
+          <Key>
+            <PropertyRef Name="mat_alu" />
+          </Key>
+          <Property Name="mat_alu" Type="Int32" Nullable="false" />
+          <Property Name="nom_alu" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="edad_alu" Type="Int32" />
+          <Property Name="sem_alu" Type="Int32" />
+          <Property Name="gen_alu" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="clave_c1" Type="Int32" />
+          <NavigationProperty Name="alu_pro" Relationship="Self.fk_falu1" FromRole="alumno" ToRole="alu_pro" />
+          <NavigationProperty Name="mat_alu1" Relationship="Self.fk_falu2" FromRole="alumno" ToRole="mat_alu" />
+          <NavigationProperty Name="carrera" Relationship="Self.fk_fc1" FromRole="alumno" ToRole="carrera" />
+        </EntityType>
+        <EntityType Name="carrera">
+          <Key>
+            <PropertyRef Name="clave_c" />
+          </Key>
+          <Property Name="clave_c" Type="Int32" Nullable="false" />
+          <Property Name="nombre_c" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="duracion" Type="Double" />
+          <NavigationProperty Name="alumno" Relationship="Self.fk_fc1" FromRole="carrera" ToRole="alumno" />
+        </EntityType>
+        <EntityType Name="mat_alu">
+          <Key>
+            <PropertyRef Name="idMatAlu" />
+          </Key>
+          <Property Name="idMatAlu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="clave_m1To" Type="Int32" />
+          <Property Name="mat_alu2" Type="Int32" />
+          <NavigationProperty Name="alumno" Relationship="Self.fk_falu2" FromRole="mat_alu" ToRole="alumno" />
+          <NavigationProperty Name="materia" Relationship="Self.fk_fm1" FromRole="mat_alu" ToRole="materia" />
+        </EntityType>
+        <EntityType Name="mat_pro">
+          <Key>
+            <PropertyRef Name="idMatProf" />
+          </Key>
+          <Property Name="idMatProf" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="clave_m2" Type="Int32" />
+          <Property Name="clave_p2" Type="Int32" />
+          <NavigationProperty Name="materia" Relationship="Self.fk_fm2" FromRole="mat_pro" ToRole="materia" />
+          <NavigationProperty Name="profesor" Relationship="Self.fk_fp2" FromRole="mat_pro" ToRole="profesor" />
+        </EntityType>
+        <EntityType Name="materia">
+          <Key>
+            <PropertyRef Name="clave_m" />
+          </Key>
+          <Property Name="clave_m" Type="Int32" Nullable="false" />
+          <Property Name="nom_m" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="cred_m" Type="Double" />
+          <NavigationProperty Name="mat_alu" Relationship="Self.fk_fm1" FromRole="materia" ToRole="mat_alu" />
+          <NavigationProperty Name="mat_pro" Relationship="Self.fk_fm2" FromRole="materia" ToRole="mat_pro" />
+        </EntityType>
+        <EntityType Name="profesor">
+          <Key>
+            <PropertyRef Name="clave_p" />
+          </Key>
+          <Property Name="clave_p" Type="Int32" Nullable="false" />
+          <Property Name="nom_p" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="dir_p" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tel_p" Type="Int64" />
+          <Property Name="hor_p" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="alu_pro" Relationship="Self.fk_fp1" FromRole="profesor" ToRole="alu_pro" />
+          <NavigationProperty Name="mat_pro" Relationship="Self.fk_fp2" FromRole="profesor" ToRole="mat_pro" />
+        </EntityType>
+        <Association Name="fk_falu1">
+          <End Role="alumno" Type="Self.alumno" Multiplicity="0..1" />
+          <End Role="alu_pro" Type="Self.alu_pro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="alumno">
+              <PropertyRef Name="mat_alu" />
+            </Principal>
+            <Dependent Role="alu_pro">
+              <PropertyRef Name="mat_alu1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_fp1">
+          <End Role="profesor" Type="Self.profesor" Multiplicity="0..1" />
+          <End Role="alu_pro" Type="Self.alu_pro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="profesor">
+              <PropertyRef Name="clave_p" />
+            </Principal>
+            <Dependent Role="alu_pro">
+              <PropertyRef Name="clave_p1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_falu2">
+          <End Role="alumno" Type="Self.alumno" Multiplicity="0..1" />
+          <End Role="mat_alu" Type="Self.mat_alu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="alumno">
+              <PropertyRef Name="mat_alu" />
+            </Principal>
+            <Dependent Role="mat_alu">
+              <PropertyRef Name="mat_alu2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_fc1">
+          <End Role="carrera" Type="Self.carrera" Multiplicity="0..1" />
+          <End Role="alumno" Type="Self.alumno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="carrera">
+              <PropertyRef Name="clave_c" />
+            </Principal>
+            <Dependent Role="alumno">
+              <PropertyRef Name="clave_c1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_fm1">
+          <End Role="materia" Type="Self.materia" Multiplicity="0..1" />
+          <End Role="mat_alu" Type="Self.mat_alu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="materia">
+              <PropertyRef Name="clave_m" />
+            </Principal>
+            <Dependent Role="mat_alu">
+              <PropertyRef Name="clave_m1To" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_fm2">
+          <End Role="materia" Type="Self.materia" Multiplicity="0..1" />
+          <End Role="mat_pro" Type="Self.mat_pro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="materia">
+              <PropertyRef Name="clave_m" />
+            </Principal>
+            <Dependent Role="mat_pro">
+              <PropertyRef Name="clave_m2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_fp2">
+          <End Role="profesor" Type="Self.profesor" Multiplicity="0..1" />
+          <End Role="mat_pro" Type="Self.mat_pro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="profesor">
+              <PropertyRef Name="clave_p" />
+            </Principal>
+            <Dependent Role="mat_pro">
+              <PropertyRef Name="clave_p2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="escuelaContenx" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="alu_pro" EntityType="Self.alu_pro" />
+          <EntitySet Name="alumno" EntityType="Self.alumno" />
+          <EntitySet Name="carrera" EntityType="Self.carrera" />
+          <EntitySet Name="mat_alu" EntityType="Self.mat_alu" />
+          <EntitySet Name="mat_pro" EntityType="Self.mat_pro" />
+          <EntitySet Name="materia" EntityType="Self.materia" />
+          <EntitySet Name="profesor" EntityType="Self.profesor" />
+          <AssociationSet Name="fk_falu1" Association="Self.fk_falu1">
+            <End Role="alumno" EntitySet="alumno" />
+            <End Role="alu_pro" EntitySet="alu_pro" />
+          </AssociationSet>
+          <AssociationSet Name="fk_fp1" Association="Self.fk_fp1">
+            <End Role="profesor" EntitySet="profesor" />
+            <End Role="alu_pro" EntitySet="alu_pro" />
+          </AssociationSet>
+          <AssociationSet Name="fk_falu2" Association="Self.fk_falu2">
+            <End Role="alumno" EntitySet="alumno" />
+            <End Role="mat_alu" EntitySet="mat_alu" />
+          </AssociationSet>
+          <AssociationSet Name="fk_fc1" Association="Self.fk_fc1">
+            <End Role="carrera" EntitySet="carrera" />
+            <End Role="alumno" EntitySet="alumno" />
+          </AssociationSet>
+          <AssociationSet Name="fk_fm1" Association="Self.fk_fm1">
+            <End Role="materia" EntitySet="materia" />
+            <End Role="mat_alu" EntitySet="mat_alu" />
+          </AssociationSet>
+          <AssociationSet Name="fk_fm2" Association="Self.fk_fm2">
+            <End Role="materia" EntitySet="materia" />
+            <End Role="mat_pro" EntitySet="mat_pro" />
+          </AssociationSet>
+          <AssociationSet Name="fk_fp2" Association="Self.fk_fp2">
+            <End Role="profesor" EntitySet="profesor" />
+            <End Role="mat_pro" EntitySet="mat_pro" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="escuelaModelStoreContainer" CdmEntityContainer="escuelaContenx">
+          <EntitySetMapping Name="alu_pro">
+            <EntityTypeMapping TypeName="escuelaModel.alu_pro">
+              <MappingFragment StoreEntitySet="alu_pro">
+                <ScalarProperty Name="mat_alu1" ColumnName="mat_alu1" />
+                <ScalarProperty Name="clave_p1" ColumnName="clave_p1" />
+                <ScalarProperty Name="idAluProf" ColumnName="idAluProf" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="alumno">
+            <EntityTypeMapping TypeName="escuelaModel.alumno">
+              <MappingFragment StoreEntitySet="alumno">
+                <ScalarProperty Name="mat_alu" ColumnName="mat_alu" />
+                <ScalarProperty Name="nom_alu" ColumnName="nom_alu" />
+                <ScalarProperty Name="edad_alu" ColumnName="edad_alu" />
+                <ScalarProperty Name="sem_alu" ColumnName="sem_alu" />
+                <ScalarProperty Name="gen_alu" ColumnName="gen_alu" />
+                <ScalarProperty Name="clave_c1" ColumnName="clave_c1" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="carrera">
+            <EntityTypeMapping TypeName="escuelaModel.carrera">
+              <MappingFragment StoreEntitySet="carrera">
+                <ScalarProperty Name="clave_c" ColumnName="clave_c" />
+                <ScalarProperty Name="nombre_c" ColumnName="nombre_c" />
+                <ScalarProperty Name="duracion" ColumnName="duracion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mat_alu">
+            <EntityTypeMapping TypeName="escuelaModel.mat_alu">
+              <MappingFragment StoreEntitySet="mat_alu">
+                <ScalarProperty Name="idMatAlu" ColumnName="idMatAlu" />
+                <ScalarProperty Name="clave_m1To" ColumnName="clave_m1To" />
+                <ScalarProperty Name="mat_alu2" ColumnName="mat_alu2" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mat_pro">
+            <EntityTypeMapping TypeName="escuelaModel.mat_pro">
+              <MappingFragment StoreEntitySet="mat_pro">
+                <ScalarProperty Name="idMatProf" ColumnName="idMatProf" />
+                <ScalarProperty Name="clave_m2" ColumnName="clave_m2" />
+                <ScalarProperty Name="clave_p2" ColumnName="clave_p2" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="materia">
+            <EntityTypeMapping TypeName="escuelaModel.materia">
+              <MappingFragment StoreEntitySet="materia">
+                <ScalarProperty Name="clave_m" ColumnName="clave_m" />
+                <ScalarProperty Name="nom_m" ColumnName="nom_m" />
+                <ScalarProperty Name="cred_m" ColumnName="cred_m" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="profesor">
+            <EntityTypeMapping TypeName="escuelaModel.profesor">
+              <MappingFragment StoreEntitySet="profesor">
+                <ScalarProperty Name="clave_p" ColumnName="clave_p" />
+                <ScalarProperty Name="nom_p" ColumnName="nom_p" />
+                <ScalarProperty Name="dir_p" ColumnName="dir_p" />
+                <ScalarProperty Name="tel_p" ColumnName="tel_p" />
+                <ScalarProperty Name="hor_p" ColumnName="hor_p" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

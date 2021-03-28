@@ -5,10 +5,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{258E07E0-7B81-40F3-8BB7-AA041CDF8C93}</ProjectGuid>
+    <ProjectGuid>{D7B6B096-5CE5-40C8-8E29-A1582C00DEE3}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Entidades</RootNamespace>
-    <AssemblyName>Entidades</AssemblyName>
+    <RootNamespace>Service</RootNamespace>
+    <AssemblyName>Service</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -35,10 +35,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>
-    </StartupObject>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
@@ -59,73 +55,70 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseD\alumno.cs">
-      <DependentUpon>MEscuelaModificado.tt</DependentUpon>
+    <Compile Include="alumno.cs">
+      <DependentUpon>EscuelaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="BaseD\carrera.cs">
-      <DependentUpon>MEscuelaModificado.tt</DependentUpon>
+    <Compile Include="alu_pro.cs">
+      <DependentUpon>EscuelaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="BaseD\materia.cs">
-      <DependentUpon>MEscuelaModificado.tt</DependentUpon>
+    <Compile Include="carrera.cs">
+      <DependentUpon>EscuelaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="BaseD\MEscuelaModificado.Context.cs">
+    <Compile Include="EscuelaModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MEscuelaModificado.Context.tt</DependentUpon>
+      <DependentUpon>EscuelaModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="BaseD\MEscuelaModificado.cs">
+    <Compile Include="EscuelaModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MEscuelaModificado.tt</DependentUpon>
+      <DependentUpon>EscuelaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="BaseD\MEscuelaModificado.Designer.cs">
+    <Compile Include="EscuelaModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MEscuelaModificado.edmx</DependentUpon>
+      <DependentUpon>EscuelaModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="BaseD\MostrarAlumnos_Result.cs">
-      <DependentUpon>MEscuelaModificado.tt</DependentUpon>
+    <Compile Include="materia.cs">
+      <DependentUpon>EscuelaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="BaseD\ObtenerAlumnosMateriasProfesor_Result.cs">
-      <DependentUpon>MEscuelaModificado.tt</DependentUpon>
+    <Compile Include="mat_alu.cs">
+      <DependentUpon>EscuelaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="BaseD\profesor.cs">
-      <DependentUpon>MEscuelaModificado.tt</DependentUpon>
+    <Compile Include="mat_pro.cs">
+      <DependentUpon>EscuelaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="BaseD\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>MEscuelaModificado.tt</DependentUpon>
-    </Compile>
-    <Compile Include="BaseD\sp_helpdiagrams_Result.cs">
-      <DependentUpon>MEscuelaModificado.tt</DependentUpon>
+    <Compile Include="profesor.cs">
+      <DependentUpon>EscuelaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <EntityDeploy Include="BaseD\MEscuelaModificado.edmx">
+    <EntityDeploy Include="EscuelaModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>MEscuelaModificado.Designer.cs</LastGenOutput>
+      <LastGenOutput>EscuelaModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="BaseD\MEscuelaModificado.edmx.diagram">
-      <DependentUpon>MEscuelaModificado.edmx</DependentUpon>
+    <None Include="EscuelaModel.edmx.diagram">
+      <DependentUpon>EscuelaModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Content Include="EscuelaModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EscuelaModel.edmx</DependentUpon>
+      <LastGenOutput>EscuelaModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="EscuelaModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EscuelaModel.edmx</DependentUpon>
+      <LastGenOutput>EscuelaModel.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BaseD\MEscuelaModificado.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MEscuelaModificado.edmx</DependentUpon>
-      <LastGenOutput>MEscuelaModificado.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="BaseD\MEscuelaModificado.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MEscuelaModificado.edmx</DependentUpon>
-      <LastGenOutput>MEscuelaModificado.cs</LastGenOutput>
-    </Content>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

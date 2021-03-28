@@ -7,11 +7,20 @@ namespace Entidades
     {
         static void Main(string[] args)
         {
-            LlamadaBaseDeDatosPorLambdaV1();
-            LlamadaBaseDeDatosPorLambdaV2();
-            Console.WriteLine();
-            LlamadaBaseDeDatosPorQuery();
+            //LlamadaBaseDeDatosPorLambdaV1();
+            //LlamadaBaseDeDatosPorLambdaV2();
+            //Console.WriteLine();
+            //LlamadaBaseDeDatosPorQuery();
 
+            using (var bd = new BaseD.EscuelaModificadoEntities())
+            {
+                var a = bd.ObtenerAlumnosMateriasProfesor(20);
+
+                foreach (var lis in a)
+                {
+                    Console.WriteLine(lis.nombre_alu + "  " + lis.nombre_mat + " " + lis.nom_p);
+                }
+            }
             Console.ReadLine();
         }
 
@@ -41,7 +50,6 @@ namespace Entidades
                     }
                 }
             }
-
         }
 
         private static void LlamadaBaseDeDatosPorLambdaV2()
@@ -50,6 +58,9 @@ namespace Entidades
             {
                 var alumnosObtenidos2 = bdEscuela.alumno
                    .Where(x => x.id_mat2 == x.materia.id_mat).ToList();
+
+
+                var profesor = bdEscuela.materia.Where(x => x.nombre_mat.ToLower().Contains("matemática")).Select(x => x.profesor.FirstOrDefault());
 
                 Console.WriteLine("".PadRight(15, '-') + "    Por Expresion lambda V2    " + "".PadRight(15, '-'));
                 Console.WriteLine("Id.".PadRight(5, ' ') + "Alumno".PadRight(12, ' ') + "Materia".PadRight(16, ' ') + "Profesor");

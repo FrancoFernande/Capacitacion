@@ -5,10 +5,10 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="fe69adb64aa34c06b543ab6a83ac115c" Name="Diagram1" ZoomLevel="74">
-        <EntityTypeShape EntityType="EscuelaModificadoModel.alumno" Width="1.5" PointX="3" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EscuelaModificadoModel.alumno" Width="1.5" PointX="3.25" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="EscuelaModificadoModel.carrera" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EscuelaModificadoModel.materia" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="EscuelaModificadoModel.profesor" Width="1.5" PointX="3" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EscuelaModificadoModel.materia" Width="1.5" PointX="3.25" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="EscuelaModificadoModel.profesor" Width="1.5" PointX="0.875" PointY="3.875" IsExpanded="true" />
         <AssociationConnector Association="EscuelaModificadoModel.fk_fc1" ManuallyRouted="false" />
         <AssociationConnector Association="EscuelaModificadoModel.fk_fm2" ManuallyRouted="false" />
         <AssociationConnector Association="EscuelaModificadoModel.fk_fp1" ManuallyRouted="false" />
